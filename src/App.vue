@@ -36,7 +36,7 @@
       app
       color="#6A76AB"
       dark
-      src="https://picsum.photos/1920/1080?random"
+      src="https://www.simplilearn.com/ice9/free_resources_article_thumb/iot_devices.jpg"
     >
       <template v-slot:img="{ props }">
         <v-img
