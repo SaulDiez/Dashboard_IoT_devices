@@ -34,14 +34,12 @@
 
     <v-app-bar
       app
-      color="#6A76AB"
       dark
       src="https://www.simplilearn.com/ice9/free_resources_article_thumb/iot_devices.jpg"
     >
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
-          gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"
         ></v-img>
       </template>
 

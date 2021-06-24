@@ -4,7 +4,7 @@
   <v-container>
     <div>
       <v-banner single-line elevation="2" sticky icon="mdi-wifi">
-        Buscar dispositivos y servicios locales
+        Buscar vulnerabilidades en dispositivos y servicios locales
         <template v-slot:actions>
           <v-btn @click="clickButton('pruebaEmit')">
             <v-icon :class="{ 'd-flex': progreHide, 'd-none': progreVisi }"
@@ -30,7 +30,7 @@
       :key="item.id"
     >
       <v-toolbar flat color="blue darken-3" dark>
-        <v-toolbar-title>Perfil UPnP</v-toolbar-title>
+        <v-toolbar-title>Perfil UPnP - {{ servicios.dispositivosUPNP[index].IPv4 }} - {{ servicios.dispositivosUPNP[index].normalName }} - {{ servicios.dispositivosUPNP[index].normalVersion }}</v-toolbar-title>
       </v-toolbar>
       <v-tabs color="blue darken-3" vertical>
         <v-tab>
@@ -65,16 +65,22 @@
                   </tr>
                   <tr>
                     <td>URL Producto</td>
-                    <td>{{ servicios.dispositivosUPNP[index].modelURL }}</td>
+                    <td><a :href="servicios.dispositivosUPNP[index].modelURL" target="_blank">
+                      {{ servicios.dispositivosUPNP[index].modelURL }}</a>
+                      </td>
                   </tr>
                   <tr>
                     <td>URL Servicio</td>
                     <td v-if="servicios.dispositivosUPNP[index].URLBase">
+                      <a :href="servicios.dispositivosUPNP[index].URLBase + servicios.dispositivosUPNP[index].presentationURL" target="_blank">
                       {{ servicios.dispositivosUPNP[index].URLBase
-                      }}{{ servicios.dispositivosUPNP[index].presentationURL }}
+                      }}{{ servicios.dispositivosUPNP[index].presentationURL }}</a>
+                      
                     </td>
                     <td v-else>
-                      {{ servicios.dispositivosUPNP[index].presentationURL }}
+                      <a :href="servicios.dispositivosUPNP[index].presentationURL" target="_blank">
+                      {{ servicios.dispositivosUPNP[index].presentationURL }}</a>
+                      
                     </td>
                   </tr>
                   <tr>
@@ -94,13 +100,13 @@
                   </tr>
                   <tr>
                     <td>URL Fabricante</td>
-                    <td>
-                      {{ servicios.dispositivosUPNP[index].manufacturerURL }}
+                    <td><a :href="servicios.dispositivosUPNP[index].manufacturerURL" target="_blank">
+                      {{ servicios.dispositivosUPNP[index].manufacturerURL }}</a>
                     </td>
                   </tr>
                   <tr>
                     <td v-if="servicios.dispositivosUPNP[index].X_DLNADOC">
-                      X_DLNADOC
+                      Versión DLNA
                     </td>
                     <td>{{ servicios.dispositivosUPNP[index].X_DLNADOC }}</td>
                   </tr>
@@ -111,22 +117,49 @@
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <v-card-text>
-              <p>
-                Morbi nec metus. Suspendisse faucibus, nunc et pellentesque
-                egestas, lacus ante convallis tellus, vitae iaculis lacus elit
-                id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum
-                aliquam libero, non adipiscing dolor urna a orci. Curabitur
-                ligula sapien, tincidunt non, euismod vitae, posuere imperdiet,
-                leo. Nunc sed turpis.
+            <v-card-text v-if="servicios.dispositivosUPNP[index].cves.totalResults == '0'">
+              <p v-if="servicios.dispositivosUPNP[index].cves.totalResults == '0'" class="font-weight-medium text-center">
+                No se han encontrado vulnerabilidades
               </p>
-
-              <p class="mb-0">
-                Donec venenatis vulputate lorem. Aenean viverra rhoncus pede. In
-                dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                Fusce commodo aliquam arcu. Suspendisse enim turpis, dictum sed,
-                iaculis a, condimentum nec, nisi.
-              </p>
+            </v-card-text>
+            <v-card-text v-else>
+              <v-simple-table dense>
+                <thead>
+                  <tr>
+                    <th>
+                      ID CVE
+                    </th>
+                    <th>
+                      Impacto
+                    </th>
+                    <th>
+                      Detalles
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(itemV, indexV) in servicios.dispositivosUPNP[index].cves.result.CVE_Items"
+              :key="itemV.id">
+                    <td>{{ servicios.dispositivosUPNP[index].cves.result.CVE_Items[indexV].cve.CVE_data_meta.ID }}</td>
+                    <td>
+                      {{ servicios.dispositivosUPNP[index].cves.result.CVE_Items[indexV].impact.baseMetricV3.cvssV3.baseScore }}: 
+                      {{ servicios.dispositivosUPNP[index].cves.result.CVE_Items[indexV].impact.baseMetricV3.cvssV3.baseSeverity }}
+                    </td>
+                    <td><v-btn :href="'https://nvd.nist.gov/vuln/detail/'+servicios.dispositivosUPNP[index].cves.result.CVE_Items[indexV].cve.CVE_data_meta.ID" target="_blank"
+              depressed
+              small
+            >Ver CVE
+              <v-icon
+                color="orange darken-4"
+                right
+              >
+                mdi-open-in-new
+              </v-icon>
+            </v-btn></td>
+                    
+                  </tr>
+                </tbody>
+              </v-simple-table>
             </v-card-text>
           </v-card>
         </v-tab-item>
