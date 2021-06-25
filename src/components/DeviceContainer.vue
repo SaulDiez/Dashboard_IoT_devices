@@ -30,7 +30,7 @@
       :key="item.id"
     >
       <v-toolbar flat color="blue darken-3" dark>
-        <v-toolbar-title>Perfil UPnP - {{ servicios.dispositivosUPNP[index].IPv4 }} - {{ servicios.dispositivosUPNP[index].normalName }} - {{ servicios.dispositivosUPNP[index].normalVersion }}</v-toolbar-title>
+        <v-toolbar-title>Perfil UPnP - {{ servicios.dispositivosUPNP[index].normalName }} {{ servicios.dispositivosUPNP[index].IPv4 }} cambiar el 17 en busqueda</v-toolbar-title>
       </v-toolbar>
       <v-tabs color="blue darken-3" vertical>
         <v-tab>
@@ -119,11 +119,11 @@
           <v-card flat>
             <v-card-text v-if="servicios.dispositivosUPNP[index].cves.totalResults == '0'">
               <p v-if="servicios.dispositivosUPNP[index].cves.totalResults == '0'" class="font-weight-medium text-center">
-                No se han encontrado vulnerabilidades
+                No se han encontrado vulnerabilidades relacionadas con este tipo de dispositivo
               </p>
             </v-card-text>
             <v-card-text v-else>
-              <v-simple-table dense>
+              <v-simple-table dense height="260">
                 <thead>
                   <tr>
                     <th>
@@ -174,7 +174,7 @@
       :key="item.id"
     >
       <v-toolbar flat color="light-green darken-4" dark>
-        <v-toolbar-title>Perfil mDNS</v-toolbar-title>
+        <v-toolbar-title>Perfil mDNS - {{ servicios.serviciosMDNS[index].normalName }} {{ servicios.serviciosMDNS[index].normalService }} {{ servicios.serviciosMDNS[index].IPv4[0] }}</v-toolbar-title>
       </v-toolbar>
       <v-tabs color="light-green darken-4" vertical>
         <v-tab>
@@ -226,22 +226,49 @@
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <v-card-text>
-              <p>
-                Morbi nec metus. Suspendisse faucibus, nunc et pellentesque
-                egestas, lacus ante convallis tellus, vitae iaculis lacus elit
-                id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum
-                aliquam libero, non adipiscing dolor urna a orci. Curabitur
-                ligula sapien, tincidunt non, euismod vitae, posuere imperdiet,
-                leo. Nunc sed turpis.
+            <v-card-text v-if="servicios.serviciosMDNS[index].cves.totalResults == '0'">
+              <p v-if="servicios.serviciosMDNS[index].cves.totalResults == '0'" class="font-weight-medium text-center">
+                No se han encontrado vulnerabilidades relacionadas con este tipo de servicio
               </p>
-
-              <p class="mb-0">
-                Donec venenatis vulputate lorem. Aenean viverra rhoncus pede. In
-                dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                Fusce commodo aliquam arcu. Suspendisse enim turpis, dictum sed,
-                iaculis a, condimentum nec, nisi.
-              </p>
+            </v-card-text>
+            <v-card-text v-else>
+              <v-simple-table dense height="260">
+                <thead>
+                  <tr>
+                    <th>
+                      ID CVE
+                    </th>
+                    <th>
+                      Impacto
+                    </th>
+                    <th>
+                      Detalles
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(itemV, indexV) in servicios.serviciosMDNS[index].cves.result.CVE_Items"
+              :key="itemV.id">
+                    <td>{{ servicios.serviciosMDNS[index].cves.result.CVE_Items[indexV].cve.CVE_data_meta.ID }}</td>
+                    <td>
+                      {{ servicios.serviciosMDNS[index].cves.result.CVE_Items[indexV].impact.baseMetricV3.cvssV3.baseScore }}: 
+                      {{ servicios.serviciosMDNS[index].cves.result.CVE_Items[indexV].impact.baseMetricV3.cvssV3.baseSeverity }}
+                    </td>
+                    <td><v-btn :href="'https://nvd.nist.gov/vuln/detail/'+servicios.serviciosMDNS[index].cves.result.CVE_Items[indexV].cve.CVE_data_meta.ID" target="_blank"
+              depressed
+              small
+            >Ver CVE
+              <v-icon
+                color="orange darken-4"
+                right
+              >
+                mdi-open-in-new
+              </v-icon>
+            </v-btn></td>
+                    
+                  </tr>
+                </tbody>
+              </v-simple-table>
             </v-card-text>
           </v-card>
         </v-tab-item>
