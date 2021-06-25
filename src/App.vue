@@ -2,9 +2,17 @@
   <v-app>
     <v-navigation-drawer app>
       <v-list-item>
+        <v-list-item-avatar>
+            <v-avatar
+              color="blue darken-4"
+              size="42"
+              class="white--text"
+            >SD
+            </v-avatar>
+          </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="text-h6"> Application </v-list-item-title>
-          <v-list-item-subtitle> subtext </v-list-item-subtitle>
+          <v-list-item-title >Saúl Díez Fernández </v-list-item-title>
+          <v-list-item-subtitle>TFM - RIASC </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -18,6 +26,19 @@
 
           <v-list-item-content>
             <v-list-item-title>Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item :href="'https://github.com/SaulDiez/Dashboard_IoT_devices'" target="_blank">
+          <v-list-item-icon>
+            <v-icon>mdi-github</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Repositorio<v-icon
+                right
+              >
+                mdi-open-in-new
+              </v-icon></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item to="/about">
@@ -51,8 +72,8 @@
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
+      <v-btn icon :href="'https://github.com/SaulDiez/Dashboard_IoT_devices'" target="_blank">
+        <v-icon>mdi-github</v-icon>
       </v-btn>
 
       <v-btn icon>

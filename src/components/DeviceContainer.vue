@@ -21,7 +21,6 @@
         </template>
       </v-banner>
     </div>
-
     <v-card
       class="float-left justify ma-4"
       height="365"
@@ -30,7 +29,7 @@
       :key="item.id"
     >
       <v-toolbar flat color="blue darken-3" dark>
-        <v-toolbar-title>Perfil UPnP - {{ servicios.dispositivosUPNP[index].normalName }} {{ servicios.dispositivosUPNP[index].IPv4 }} cambiar el 17 en busqueda</v-toolbar-title>
+        <v-toolbar-title>Perfil UPnP - {{ servicios.dispositivosUPNP[index].normalName }} {{ servicios.dispositivosUPNP[index].IPv4 }}</v-toolbar-title>
       </v-toolbar>
       <v-tabs color="blue darken-3" vertical>
         <v-tab>
